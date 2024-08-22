@@ -48,7 +48,7 @@ The script can be executed with different modes to suit your needs. Here's how t
 To monitor the websites listed in `url_database.txt`, run:
 
 ```bash
-./script_name.sh web
+./main.sh web
 ```
 
 ### Monitor IP Addresses
@@ -56,7 +56,7 @@ To monitor the websites listed in `url_database.txt`, run:
 To monitor the IP addresses listed in `ip_database.txt`, run:
 
 ```bash
-./script_name.sh ip
+./main.sh ip
 ```
 
 ### Monitor All
@@ -64,7 +64,7 @@ To monitor the IP addresses listed in `ip_database.txt`, run:
 To monitor both websites and IP addresses, run:
 
 ```bash
-./script_name.sh all
+./main.sh all
 ```
 
 ### Add a New IP or URL
@@ -74,13 +74,13 @@ To add a new IP address or URL to the respective databases, use the following co
 **Add IP:**
 
 ```bash
-./script_name.sh ip <IP_ADDRESS>
+./main.sh ip <IP_ADDRESS>
 ```
 
 **Add URL:**
 
 ```bash
-./script_name.sh web <URL>
+./main.sh web <URL>
 ```
 
 You will be prompted to confirm if you want to add the new IP address or URL to the database.
@@ -105,7 +105,7 @@ Add your IP addresses and URLs to `ip_database.txt` and `url_database.txt`.
 - **Script Not Executing**: Ensure the script has execute permissions. You can add execute permissions with:
 
   ```bash
-  chmod +x script_name.sh
+  chmod +x main.sh
   ```
 
 ## License
