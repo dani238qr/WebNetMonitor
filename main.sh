@@ -242,9 +242,11 @@ case "$1" in
 
   h)
     echo
-    echo " web (for web monitoring)"
-    echo " ip (to ping specific IP addresses)"
-    echo " all (IP + web)"
+    echo "./main.sh <mode>"
+    echo "   web (for web monitoring)"
+    echo "   ip (to ping specific IP addresses)"
+    echo "   all (IP + web)"
+    echo
     echo " In web/all mode, type any status error code to get more info or exit to exit"
     echo " in ip and web mode you can insert ip or url at the end to append to database"
     echo " Press Ctrl+c to stop"
