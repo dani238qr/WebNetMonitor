@@ -1,1 +1,139 @@
+The 100 Continue status code means that the initial part of the request has been received by the server and that the client should proceed with the request or ignore the response if the request has already finished.
+
+The 101 Switching protocols status code means that the server understands the Upgrade header field request and indicates which protocol it is switching to.
+
+The 102 Processing status code means that the server has accepted the full request but has not yet completed it and no response is available as of yet.
+ 
+The 103 Early hints status code is intended to be used to allow the user agent to preload resources, while the server prepares a response. It is intended to be primarily used with the Link Header.
+
+The 200 OK status code means that the request was successful, but the meaning of success depends on the request method used:
+GET: The requested resource has been fetched and transmitted to the message body.
+HEAD: The header fields from the requested resource are sent in without the message body. 
+POST or PUT: A description of the result of the action is transmitted to the message body.
+TRACE: The request messages, as received by the server, will be included in the message body
+When looking at things SEO-wise the 200 OK response code is the perfect status code for a functioning page, all the linked pages are working as they should. A 200 will mean that search engine crawlers can successfully crawl the page and it will be put into their search index.
+
+The 201 Created status code means that the request was successfully fulfilled and resulted in one or possibly multiple new resources being created.
+
+The 202 Accepted status code means that the request has been accepted for processing, but the processing has not been finished yet. The request may or may not be completed when the processing eventually takes place.
+
+The 203 Non-Authoritative Information status code means that the request was successful. However, the meta-information that has been received is different from the one on the origin server and has instead been collected from a 3rd party or local copy.
+
+The 204 No Content status code means that while the server has successfully fulfilled the request, there is no available content for this request. But the user agent might want to update its currently cached headers for this resource, for the new one. 
+
+The 205 Reset Content status code means that the user should reset the document that sent this request.
+
+The 206 Partial Content response code is a response to a Range header sent from the client when requesting only a part of the resource.
+
+The 207 Multi-Status status code conveys information about multiple resources, in situation when multiple status codes are appropriate.
+
+The 208 Already Reported status code is used inside the response element DAV: propstat, in order to avoid enumerating the internal members of multiple bindings to the same collection repeatedly.
+
+The 226 IM response code means that the server has successfully fulfilled a GET request for the resource, and the response is a representation of the result of one or multiple instance-manipulations applied to the current instance.
+
+The 300 Multiple Choices status code means that the request has multiple possible responses and the user/user agent should choose one.
+
+The 301 Moved Permanently response code means that the target resource has been assigned a new permanent URL and any references to this resources in the future should use one of the URLs included in the response.
+When looking at things SEO-wise the 301 Permanent Redirect should be used every time a URL is moved permanently. This redirect passes your current link equity from your content to the new URL. Links that result in a status code 301 does give slightly less link equity than 2OO. So if you have a lot of links going through a 301 Permanent Redirect it is advised to fix these, if possible.
+
+The 302 Found status code, previously known as “Moved temporarily”, means that the URI of the request has been changed temporarily, and since changes can be made to the URI in the future, the effective request URI should be used for future requests.
+When looking at things SEO-wise the 302 Found should only be used when making temporary changes as it does not pass the link equity the same way as a 3O1. If the page is not going to come back you should always use 3O1.
+
+The 303 See Other response code is sent by the server in order to direct the client to get the requested resource at another URI with a GET request.
+
+The 304 Not Modified response code informs the client that the response has not been modified. This means that the client can continue to use the already present, cached version of the response.
+
+The 305 Use Proxy status code instructs a client that it should connect to a proxy and then repeat the same request there. This response code is deprecated due to security concerns.
+
+The 306 Switch proxy status code is no longer in use. It was used to inform the client that the subsequent requests should use the specified proxy.
+
+The 307 Temporary Redirect status code gets sent by the server in order to direct the client to the requested resource at another URI. The request method, however, must not be changed.
+
+The 308 Permanent Redirect status code means that the requested resource has been permanently assigned a new URI and future references to the resource should be made by using one of the enclosed URIs.
+
+The 400 Bad Request status code means that the server could not understand the request because of invalid syntax.
+
+The 401 Unauthorized status code means that the request has not been applied because the server requires user authentication.
+
+The 402 Payment Required status code is a response reserved for future use. It was originally created to be implemented in digital payment systems, however, it is rarely used and a standard convention of using it does not exist.
+
+The 403 Forbidden status code means that the client request has been rejected because the client does not have rights to access the content. Unlike a 4O1 error, the client's identity is known to the server, but since they are not authorized to view the content, giving the proper response is rejected by the server.
+
+The 404 Not Found status code means that the server either did not find a current representation for the requested resource or is trying to hide its existence from an unauthorized client.
+
+When looking at things SEO-wise the 404 Not Found status code pages with a high volume of traffic should be redirected using a 3O1 to the most relevant page possible. For some pages, however, a 404 might be necessary, for example, if the product is out of stock for an extended period of time. If you have external links pointing to a page that returns 404, you will lose the link equity those links would otherwise give.
+
+The 405 Method Not Allowed status code means that while the server knows the request method, the method has been disabled and can not be used.
+
+The 406 Not Acceptable status code is sent by the server when it does not find any content following the criteria given by the user agent.
+
+The 407 Proxy Authentication Required status code means that the client must first be authenticated by a proxi.
+
+The 408 Request Timeout status code means that the server did not receive a complete request in the time that it prepared to wait.
+
+The 409 Conflict status code means that the request could not be fulfilled due to a conflict with the current state of the target resource and is used in situations where the user might be able to resubmit the request after resolving the conflict.
+
+The 410 Gone status code means that the target resource has been deleted and the condition seems to be permanent. 
+When looking at things SEO-wise the 410 Gone status code is a more permanent version a 4O4. The page will no longer be available from the server and has no forwarding address available. If you want to completely remove a page from Googles search index, then using 410 on a page is the proper way of doing it (instead of simply 4O4). 
+
+The 411 Length Required status code means that the server has rejected the request because it requires the Content-Length header field to be defined.
+
+The 412 Precondition Failed status code means the server does not meet one or multiple preconditions that were indicated in the request header fields.
+
+The 413 Payload Too Large status code means the server refuses to process the request because the request payload is larger than the server is able or willing to process. While the server may close the connection to prevent the client from continuing the request, it should generate a Retry-After header field and after how long can the client retry.
+
+The 414 URI Too Long status code means that the server is refusing to service the request because the request-target was longer than the server was willing to interpret.
+
+The 415 Unsupported Media Type status code means that the server is rejecting the request because it does not support the media format of the requested data.
+
+The 416 Range Not Satisfiable status code means that the range specified in the Range header field of the request can't be fulfilled. The reason might be that the given range is outside the size of the target URI's data.
+
+The 417 Expectation Failed status code means that the Expectation indicated by the Expect request-header field could not be met by the server.
+
+The 418 I'm a Teapot status code means that the server refuses to brew coffee because it is, in fact, a teapot. (It is a reference to a 1998 April Fools' joke called ''Hyper Text Coffee Pot Control Protocol'').
+
+The 421 Misdirected Request status code means that the client request was directed at a server that is not configured to produce a response.
+
+The 422 Unprocessable Entity status code means that while the request was well-formed, the server was unable to follow it, due to semantic errors.
+
+The 423 Locked status code means that the resource that is being accessed is locked.
+
+The 424 Failed Dependency status code means that the request failed due to the failure of a previous request.
+
+The 425 Too Early status code means that the server is not willing to risk processing a request that might be replayed.
+
+The 426 Upgrade Required status code means that while the server refuses to perform the given request using the current protocol, it might be willing to do so after the client has been upgraded to a different protocol.
+
+The 428 Precondition Required status code means that the origin server requires the request to be conditional.
+
+The 429 Too Many Requests response code means that in the given time, the user has sent too many requests.
+
+The 431 Request Header Fields Too Large means that the server is not willing to process the request because its header fields are indeed too large, however, the request may be submitted again once the size of the request header fields is reduced.
+
+The 451 Unavailable For Legal Reasons response code means that the user has requested an illegal resource (such as pages and sites blocked by the government).
+
+The 500 Internal Server Error status code means that the server has encountered a situation that it does not know how to handle.
+When looking at things SEO-wise the 500 Internal Server Error indicates a problem with the server, not the actual availability of the content. Since bots and users will both be lost, the link equity will go down fast.
+
+The 501 Not Implemented response code means that the request can not be handled because it is not supported by the server.
+
+The 502 Bad Gateway response code means that the server received an invalid response while working as a gateway to handle the response.
+
+The 503 Service Unavailable response code means that the server is currently not ready to handle the request. This is a common occurrence when the server is down for maintenance or is overloaded.
+When looking at things SEO-wise the 503 Service Unavailable status code means that the server is unavailable and the visitor, bot or human, is asked to return again at a later time. This could be because of either server maintenance or server overload and search engines know to come back and check the availability later.
+
+The 504 Gateway Timeout response code means that the server acting as a gateway could not get a response time.
+
+The 505 HTTP Version Not Supported response code means that the version of HTTP used in the request is not supported by the server.
+
+The 506 Variant Also Negotiates response code means that the server has the following internal configuration error: The chosen variant resource is configured to engage in transparent negotiation itself, therefore it cannot be a proper endpoint in the negotiation process.
+
+The 507 Insufficient Storage status code means that the method could not be performed on the resource because the server is not able to store the representation that would be needed to complete the request successfully.
+
+The 508 Loop Detected response code means that the server has detected an infinite loop while processing the request.
+
+The 510 Not Extended response code means that further extensions are required for the server to be able to fulfil the request.
+
+The 511 Network Authentication Required response code indicates that the client needs to authenticate to gain network access. 
+
 
