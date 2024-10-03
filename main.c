@@ -12,4 +12,20 @@
     #define WAIT_TIME 1
 #endif
 
+int main(int argc, char *argv[]) {
 
+    if(argc !=2 ){
+        fprintf(stderr, "add h for help\n");
+        return 1;
+    }
+
+    if (OS_WINDOWS) {
+        printf("Windows\n");
+    }
+    else{
+        system("chmod +x src/linux_src.sh");
+    }
+
+    return 0;
+
+}
