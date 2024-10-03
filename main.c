@@ -26,6 +26,31 @@ int main(int argc, char *argv[]) {
         system("chmod +x src/linux_src.sh");
     }
 
+
+        if (OS_WINDOWS) {
+            printf("WINDOES\n");
+    }
+            
+    else {
+        if (strcmp(argv[1],"h")==0){
+            system("./src/linux_src.sh h");
+        }
+        else if (strcmp(argv[1],"ip")==0){
+            system("./src/linux_src.sh ip");
+        }
+        else if (strcmp(argv[1],"web")==0){
+            system("./src/linux_src.sh web");
+        }
+        else if (strcmp(argv[1],"all")==0){
+            system("./src/linux_src.sh all");
+        }
+        else{
+            fprintf(stderr, "add h for help\n");
+            return 1;
+        }
+        
+    }
+
     return 0;
 
 }
