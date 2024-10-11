@@ -2,9 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
+#include <curl/curl.h>
 #include <time.h>
 #include <windows.h>
 #include <winhttp.h>
+
 
 #define INTERVAL 60
 #define IP_LOG_FILE "url\\ip.log"
@@ -60,10 +62,30 @@ void check_website(const char *url) {
   
 }
 
+void send_alert(const char *destination, const char *subject, const char *body) {
+    char command[512];
+    snprintf(command, sizeof(command),
+             "powershell -Command \"Send-MailMessage -To '%s' -Subject '%s' -Body '%s' -SmtpServer 'smtp.example.com'\"",
+             destination, subject, body);
+    system(command);
+}
+
+
 time_t now = time(NULL);
 struct tm *t = localtime(&now);
 char time_str[100];
 strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", t);
+
+void cleanup(int signum) {
+    printf("Cleaning up...\n");
+    for (int i = 0; i < num_websites; i++) free(websites[i]);
+    free(websites);
+    for (int i = 0; i < num_ips; i++) free(ips[i]);
+    free(ips);
+    exit(0);
+}
+
+
 
 int main(){
 
