@@ -88,8 +88,10 @@ void cleanup(int signum) {
 
 
 int main(){
-
-  check_website("http://www.google.com");
+    load_database("database\\url_database.txt", &websites, &num_websites);
+    load_database("database\\ip_database.txt", &ips, &num_ips);
+    
+    check_website("http://www.google.com");
   
   return 0;
 }
