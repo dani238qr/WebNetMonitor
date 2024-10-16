@@ -2,17 +2,15 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
-#include <curl/curl.h>
 #include <time.h>
 #include <windows.h>
 #include <winhttp.h>
-
 
 #define INTERVAL 60
 #define IP_LOG_FILE "url\\ip.log"
 #define URL_LOG_FILE "url\\url.log"
 
-//convert char* to wchar_t*(>8bit len)
+// Function to convert char* to wchar_t*
 wchar_t *charToWChar(const char *text) {
     size_t len = strlen(text) + 1;
     wchar_t *wText = (wchar_t *)malloc(len * sizeof(wchar_t));
@@ -20,78 +18,79 @@ wchar_t *charToWChar(const char *text) {
     return wText;
 }
 
-void load_database(const char *filename, char ***data, int *size) {
-    FILE *file = fopen(filename, "r");
-    if (!file) {
-        fprintf(stderr, "Error opening file: %s\n", filename);
-        exit(1);
-    }
-
-    char line[256];
-    *size = 0;
-    *data = NULL;
-
-    while (fgets(line, sizeof(line), file)) {
-        (*size)++;
-        *data = realloc(*data, sizeof(char *) * (*size));
-        if (*data == NULL) {
-            fprintf(stderr, "Memory allocation error.\n");
-            exit(1);
-        }
-        (*data)[*size - 1] = strdup(line);
-        if ((*data)[*size - 1] == NULL) {
-            fprintf(stderr, "Memory allocation error.\n");
-            exit(1);
-        }
-        (*data)[*size - 1][strcspn((*data)[*size - 1], "\n")] = '\0';
-    }
-
-    fclose(file);
-}
-
-void ip_log_message(const char *message) {
-    FILE *file = fopen(IP_LOG_FILE, "a");
-    if (file) {
-        fprintf(file, "%s\n", message);
-        fclose(file);
-    }
-}
-
 void check_website(const char *url) {
-      char log_message_buf[512];
-  
-}
+    wchar_t *wUrl = charToWChar(url);
+    URL_COMPONENTS urlComp;
+    HINTERNET hSession, hConnect, hRequest;
+    BOOL bResults;
+    DWORD dwSize = sizeof(DWORD);
+    DWORD dwStatusCode = 0;
+    char log_message_buf[512];
 
-void send_alert(const char *destination, const char *subject, const char *body) {
-    char command[512];
-    snprintf(command, sizeof(command),
-             "powershell -Command \"Send-MailMessage -To '%s' -Subject '%s' -Body '%s' -SmtpServer 'smtp.example.com'\"",
-             destination, subject, body);
-    system(command);
-}
+    ZeroMemory(&urlComp, sizeof(urlComp));
+    urlComp.dwStructSize = sizeof(urlComp);
+    urlComp.dwSchemeLength = -1;
+    urlComp.dwHostNameLength = -1;
+    urlComp.dwUrlPathLength = -1;
+    urlComp.dwExtraInfoLength = -1;
 
+    if (!WinHttpCrackUrl(wUrl, (DWORD)wcslen(wUrl), 0, &urlComp)) {
+        printf("Failed to parse URL: %s\n", url);
+        free(wUrl);
+        return;
+    }
 
-time_t now = time(NULL);
-struct tm *t = localtime(&now);
-char time_str[100];
-strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", t);
+    hSession = WinHttpOpen(L"A HTTP Checker/1.0",
+                           WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
+                           WINHTTP_NO_PROXY_NAME,
+                           WINHTTP_NO_PROXY_BYPASS, 0);
 
-void cleanup(int signum) {
-    printf("Cleaning up...\n");
-    for (int i = 0; i < num_websites; i++) free(websites[i]);
-    free(websites);
-    for (int i = 0; i < num_ips; i++) free(ips[i]);
-    free(ips);
-    exit(0);
-}
+    if (hSession) {
+        hConnect = WinHttpConnect(hSession, urlComp.lpszHostName, urlComp.nPort, 0);
 
+        if (hConnect) {
+            hRequest = WinHttpOpenRequest(hConnect, L"HEAD", urlComp.lpszUrlPath, NULL,
+                                          WINHTTP_NO_REFERER,
+                                          WINHTTP_DEFAULT_ACCEPT_TYPES,
+                                          (urlComp.nScheme == INTERNET_SCHEME_HTTPS) ? WINHTTP_FLAG_SECURE : 0);
 
+            if (hRequest) {
+                bResults = WinHttpSendRequest(hRequest,
+                                              WINHTTP_NO_ADDITIONAL_HEADERS, 0,
+                                              WINHTTP_NO_REQUEST_DATA, 0,
+                                              0, 0);
 
-int main(){
-    load_database("database\\url_database.txt", &websites, &num_websites);
-    load_database("database\\ip_database.txt", &ips, &num_ips);
+                if (bResults) {
+                    bResults = WinHttpReceiveResponse(hRequest, NULL);
+                    if (bResults) {
+                        WinHttpQueryHeaders(hRequest,
+                                            WINHTTP_QUERY_STATUS_CODE | WINHTTP_QUERY_FLAG_NUMBER,
+                                            NULL, &dwStatusCode, &dwSize, NULL);
+                    }
+                }
+                WinHttpCloseHandle(hRequest);
+            }
+            WinHttpCloseHandle(hConnect);
+        }
+        WinHttpCloseHandle(hSession);
+    }
+
+    free(wUrl);
+
+    time_t now = time(NULL);
+    struct tm *t = localtime(&now);
+    char time_str[100];
+    strftime(time_str, sizeof(time_str), "%Y-%m-%d %H:%M:%S", t);
+
+    snprintf(log_message_buf, sizeof(log_message_buf), "%s: %s returned %lu",
+             time_str, url, dwStatusCode);
+
+    printf("%s\n", log_message_buf);
     
-    check_website("http://www.google.com");
-  
-  return 0;
 }
+
+int main() {
+    check_website("http://www.example.com");
+    return 0;
+}
+
