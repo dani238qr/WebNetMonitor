@@ -20,7 +20,8 @@ int main(int argc, char *argv[]) {
     }
 
     if (OS_WINDOWS) {
-        system("gcc -o windows_monitor.exe src\\windows_src.c -lcurl"); 
+        printf("Windows");
+        //system("gcc -o windows_monitor.exe src\\windows_src.c -lcurl"); 
     }
     else{
         system("chmod +x src/linux_src.sh");
@@ -31,6 +32,8 @@ int main(int argc, char *argv[]) {
     #endif
 
     if (OS_WINDOWS) {
+        printf("win");
+        /*
         if (strcmp(argv[1],"h")==0){
             system("windows_monitor.exe h" );
         }
@@ -42,11 +45,12 @@ int main(int argc, char *argv[]) {
         }
         else if (strcmp(argv[1],"all")==0){
             system("windows_monitor.exe all" );
+            
         }
         else{
             fprintf(stderr, "add h for help\n");
             return 1;
-        }
+        }*/
 
     }
     else {
