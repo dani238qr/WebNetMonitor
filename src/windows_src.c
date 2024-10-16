@@ -89,8 +89,5 @@ void check_website(const char *url) {
     
 }
 
-int main() {
-    check_website("http://www.example.com");
-    return 0;
-}
+
 
